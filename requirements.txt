@@ -1,0 +1,29 @@
+
+streamlit # to create the web app for the project
+
+# This file lists the Python dependencies for the project.
+# You can install these dependencies using pip:
+numpy
+pandas
+scikit-learn # to identiy the face recognition
+dlib-bin # to identify the face 
+# dlib-20.0.99-cp314-cp314-win_amd64.whl
+
+# opening the face embedding model from the git hub
+git+https://github.com/ageitgey/face_recognition_models
+setuptools<70.0.0
+
+#  database 
+supabase  # to store the data  act as a free database for the project
+bcrypt # to hash the password for the database
+
+segno # to generate QR code for the user to scan and login 
+pillow # to process the image for the face recognition ( help in image preprocessing
+
+
+
+# Use mv .streamlit streamlit to move the streamlit folder to the root directory of the project. This will allow streamlit to find the configuration file and run the app correctly.  
+
+
+librosa # to process the audio for the voice recognition ( help in audio preprocessing)
+resemblyzer # to identify the voice recognition ( help in voice recognition)
