@@ -86,10 +86,16 @@ def teacher_dashboard():
     if st.session_state.current_teacher_tab == "attendance_records":
         teacher_tab_attendance_records()
 
+    
+
 
     footer_dashboard()
 
 def teacher_tab_take_attendance():
+# 
+    results = []
+    attendance_to_log = []
+# 
     teacher_id = st.session_state.teacher_data['teacher_id']
     st.header('Take AI Attendance')
 
@@ -105,7 +111,7 @@ def teacher_tab_take_attendance():
     
     subject_options = {f"{s['name']} - {s['subject_code']}": s['subject_id'] for s in subjects}
 
-    col1, col2 = st.columns([3,1], vertical_alignment='bottom') # define the column widths, with the first column being 3 times wider than the second
+    col1, col2 = st.columns([3,1], vertical_alignment='bottom')
 
     with col1:
         selected_subject_label = st.selectbox('Select Subject', options=list(subject_options.keys()))
@@ -151,7 +157,10 @@ def teacher_tab_take_attendance():
 
                             all_detected_ids.setdefault(student_id, []).append(f"Photo {idx+1}")
 
+              
                 enrolled_res = supabase.table('subject_students').select("*, students(*)").eq('subject_id',selected_subject_id ).execute()
+                # 
+                
                 enrolled_students = enrolled_res.data
 
                 if not enrolled_students:
@@ -182,11 +191,19 @@ def teacher_tab_take_attendance():
                             'is_present': bool(is_present)
                         })
 
-                attendance_result_dialog(pd.DataFrame(results), attendance_to_log)
+                attendance_result_dialog(pd.DataFrame(results),
+                                          attendance_to_log)
 
     with c3:
         if st.button('Use Voice Attendance', type='primary', width='stretch', icon=':material/mic:'):
             voice_attendance_dialog(selected_subject_id)
+
+
+
+
+
+
+
 
 
 
@@ -390,4 +407,4 @@ def teacher_screen_register():
         if st.button('Login Instead', type="primary", icon=':material/passkey:', width='stretch'):
             st.session_state.teacher_login_type = 'login'
 
-    footer_dashboard() 
+    footer_dashboard()
