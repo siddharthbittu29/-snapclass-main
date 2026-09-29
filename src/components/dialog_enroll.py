@@ -6,7 +6,7 @@ import time
 
 
 @st.dialog("Enroll in Subject")
-def enroll_dialog():
+def enroll_dialog(student_id):
     st.write('Enter the subject code provided by your teacher to enroll')
     join_code = st.text_input('Subject Code', placeholder='Eg. CS101')
 
@@ -15,7 +15,6 @@ def enroll_dialog():
             res = supabase.table('subjects').select('subject_id, name, subject_code').eq('subject_code', join_code).execute()
             if res.data:
                 subject = res.data[0]
-                student_id = st.session_state.student_data['student_id']
 
                 check = supabase.table('subject_students').select('*').eq('subject_id', subject['subject_id']).eq('student_id', student_id).execute()
                 if check.data:

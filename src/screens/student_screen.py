@@ -20,7 +20,6 @@ from src.components.subject_card import subject_card
 
 
 
- 
 
 
 def student_dashboard():
@@ -44,7 +43,7 @@ def student_dashboard():
         st.header('Your Enrolled Subjects')
     with c2:
         if st.button('Enroll in Subject', type='primary', width='stretch'):
-            enroll_dialog()
+            enroll_dialog(student_id)
 
 
     st.divider()
@@ -76,7 +75,13 @@ def student_dashboard():
 
         stats = stats_map.get(sid,{"total":0, "attended": 0} )
         def unenroll_button():
-                if st.button("Unenroll from tihs course", type='tertiary', width='stretch', icon=':material/delete_forever:'):
+                if st.button(
+                    "Unenroll from this course",
+                    type='tertiary',
+                    width='stretch',
+                    icon=':material/delete_forever:',
+                    key=f"unenroll_{student_id}_{sid}_{i}"
+                ):
                     unenroll_student_to_subject(student_id, sid)
                     st.toast(f"Unenrolled from {sub['name']} successfully!")
                     st.rerun()
@@ -188,7 +193,7 @@ def student_screen():
                             if response_data:
                                 train_classifier()
                                 st.session_state.is_logged_in = True
-                                st.session_state.user_role = 'student'
+                                st.session_state.user_role ='student'
                                 st.session_state.student_data = response_data[0]
                                 st.toast(f'Profile Created! Hlo  {new_name}!')
                                 time.sleep(1)
@@ -201,7 +206,6 @@ def student_screen():
 
 
 
-                          
-            
-  
+
+
     footer_dashboard()

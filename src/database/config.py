@@ -1,24 +1,22 @@
 import streamlit as st
 from supabase import create_client, Client
 
-# supabase: Client = create_client(
-#     st.secrets["SUPABASE_URL"], 
-#     st.secrets["SUPABASE_KEY"]
-# )
-
-
-import streamlit as st
-from supabase import create_client
 
 url = st.secrets["SUPABASE_URL"]
 key = st.secrets["SUPABASE_KEY"]
 
-st.write("Supabase URL:", url)
-
-supabase = create_client(url, key)
 
 try:
-    result = supabase.table("teachers").select("*").limit(1).execute()
-    st.success("Supabase Connected")
-except Exception as e:
-    st.error(f"Supabase Error: {e}")
+    with st.spinner("Please wait... Preparing SnapClass for you..."):
+        # Create Supabase client
+        supabase: Client = create_client(url, key)
+
+        # Verify that the database is reachable
+        supabase.table("teachers").select("teacher_id").limit(1).execute()
+
+except Exception:
+    st.error(
+        "SnapClass is currently unable to connect to its services. "
+        "Please check your internet connection and try again."
+    )
+    st.stop()
